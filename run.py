@@ -22,7 +22,7 @@ def ports_to_scan():
 def urls_to_scan():
     """
 
-    :return: string: Every combination of protocol, ip address and port
+    :return: string: Generate every combination of protocol, ip address and port
     """
     ip_range_start_num = IP_RANGE_START.split('.')
     ip_range_end_num = IP_RANGE_END.split('.')
@@ -75,14 +75,14 @@ def get_target_path(file_name):
 
     # something like: U:\fotky\2024\_raw\04_april2024
     months = ['januar', 'februar',  'marec', 'april', 'maj', 'jun', 'jul', 'august', 'september', 'oktober', 'november', 'december']
-    path = TARGET_PATH_PREFIX + year + '/_raw/' + month + '_' + months[int(month)-1] + year + '/'
+    path = f'{TARGET_PATH_PREFIX}{year}/_raw/{month}_{months[int(month)-1]}{year}/'
 
     return path
 
 
 def connect(url, port):
     ftp = FTP()
-    ftp.connect(host=url, port=port, timeout=1)  # short timeout to fast pass through non existing ftp IPs
+    ftp.connect(host=url, port=port, timeout=0.5)  # short timeout to fast pass through non existing ftp IPs
     try:
         print(f'Successfully connected.')
         ftp.login()  # anonymous
