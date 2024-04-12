@@ -1,5 +1,7 @@
 import socket
-import traceback
+#import traceback
+import os
+import datetime
 from time import sleep
 from ftplib import FTP
 
@@ -12,7 +14,7 @@ IP_RANGE_END = '192.168.1.85'
 #PORTS_TO_SCAN = [2121, 2122]
 PORTS_TO_SCAN = [2121, ]
 
-TARGET_PATH = 'd:/pokus/'  # should end with /
+TARGET_PATH_PREFIX = 'D:/pokus/'  # should end with /
 
 def ports_to_scan():
     for each in PORTS_TO_SCAN:
@@ -47,6 +49,28 @@ def urls_to_scan():
             yield protocol + '.'.join(current_ip_num)# + ':' + port
 
 
+def get_target_path(file_name):
+    import datetime
+    today = datetime.date.today()
+    this_month =  today.strftime("%Y%m")
+    first = today.replace(day=1)
+    last_month = first - datetime.timedelta(days=1)
+    last_month =  last_month.strftime("%Y%m")
+
+    #remove img prefix
+    if file_name.lower().startswith('img'):
+        file_name = file_name[3:]
+
+    #we will process only files for this and last month
+    if not file_name.startswith(this_month) or not file_name.startswith(last_month):
+        return None
+
+    year = file_name[:4]
+    month = file_name[4:6]
+    path = TARGET_PATH_PREFIX + year + month + '/'
+    return path
+
+
 def connect(url):
     #ftp = FTP(url)
     ftp = FTP()
@@ -56,7 +80,7 @@ def connect(url):
     ftp.cwd('0')
     ftp.cwd('DCIM')
     ftp.cwd('Camera')
-    ftp.timeout = 200  # following LIST command takes more time
+    ftp.timeout = 3600  # following LIST/NLST command takes more time, also RETR
     print('Getting file list...')
     #rows = ftp.retrlines('LIST')
     #rows = ftp.retrlines('NLST')
@@ -64,11 +88,19 @@ def connect(url):
     print(len(rows))
     print(f'Getting file list done {len(rows)} files.')
     for file_name in rows:
-        print(f'Creating {TARGET_PATH + file_name}')
-        if not file
-        with open(TARGET_PATH + file_name, 'wb') as fp:
-            ftp.retrbinary('RETR ' + file_name, fp.write)
+        target_file_path = get_target_path(file_name)
 
+        if target_file_path:
+
+            if not os.path.exists(target_file_path):
+                print(f'Creating {target_file_path}')
+
+                with open(target_file_path, 'wb') as fp:
+                    ftp.retrbinary('RETR ' + file_name, fp.write)
+            else:
+                print(f'File {target_file_path} already exists, skipping.')
+        else:
+            print(f'File {file_name} too old, or unrecognised, skipping.')
     ftp.quit()
 
 def main():
