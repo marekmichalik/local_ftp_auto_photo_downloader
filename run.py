@@ -92,7 +92,7 @@ def connect(url, port):
         ftp.timeout = 3600  # following LIST/NLST command takes more time, also RETR
         print('Getting file list...')
         rows = ftp.nlst()
-        print(f'Getting file list done {len(rows)} files, traversing for new ones...')
+        print(f'Getting file list done {len(rows)} files, looking for new files...')
         for file_name in rows:
             target_file_path = get_target_path(file_name)
             if target_file_path:
