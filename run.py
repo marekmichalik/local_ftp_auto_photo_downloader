@@ -76,7 +76,6 @@ def get_target_path(file_name):
     # something like: U:\fotky\2024\_raw\04_april2024
     months = ['januar', 'februar',  'marec', 'april', 'maj', 'jun', 'jul', 'august', 'september', 'oktober', 'november', 'december']
     path = f'{TARGET_PATH_PREFIX}{year}/_raw/{month}_{months[int(month)-1]}{year}/'
-
     return path
 
 
@@ -128,8 +127,6 @@ def main():
             # print('nothing here.')
             #traceback.print_exc()
             print(e)
-
-
 
 
 if __name__ == "__main__":
