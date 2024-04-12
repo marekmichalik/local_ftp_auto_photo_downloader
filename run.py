@@ -12,7 +12,8 @@ PORTS_TO_SCAN = [2121, ]
 
 TARGET_PATH_PREFIX = 'U:/fotky/'  # should end with /
 
-VERBOSE = 0
+VERBOSE = 0  # 1 for more output
+CONVERT_FILES = 0  # not implemented, idea is to convert heic/heif and similar files to jpg for convenience
 
 def ports_to_scan():
     for each in PORTS_TO_SCAN:
