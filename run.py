@@ -42,7 +42,7 @@ def urls_to_scan():
             yield '.'.join(current_ip_num), port
         current_ip_num = inc_ip(current_ip_num)
 
-    # yield also lst IP of the range
+    # yield also last IP of the range
     for port in ports_to_scan():
         yield '.'.join(current_ip_num), port
 
