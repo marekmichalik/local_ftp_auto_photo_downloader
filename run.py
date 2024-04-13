@@ -4,7 +4,7 @@ import datetime
 from time import sleep
 from ftplib import FTP
 
-IP_RANGE_START = '192.168.1.80'
+IP_RANGE_START = '192.168.1.40'
 IP_RANGE_END =   '192.168.1.99'
 
 #PORTS_TO_SCAN = [2121, 2122]
