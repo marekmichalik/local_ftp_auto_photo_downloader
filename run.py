@@ -1,8 +1,9 @@
 import socket
 import os
 import datetime
+import traceback
 from time import sleep
-from ftplib import FTP
+from ftplib import FTP, error_perm
 
 IP_RANGE_START = '192.168.1.40'
 IP_RANGE_END =   '192.168.1.99'
@@ -86,7 +87,10 @@ def connect(url, port):
     try:
         print(f'Successfully connected.')
         ftp.login()  # anonymous
-        ftp.cwd('0')
+        try:
+            ftp.cwd('0')
+        except error_perm:
+            pass
         ftp.cwd('DCIM')
         ftp.cwd('Camera')
         ftp.timeout = 3600  # following LIST/NLST command takes more time, also RETR
@@ -136,6 +140,7 @@ if __name__ == "__main__":
         try:
             main()
         except Exception as e:
-            print(e)
+            traceback.print_exc()
+            #print(e)
         print('waiting before next round...')
         sleep(10)
