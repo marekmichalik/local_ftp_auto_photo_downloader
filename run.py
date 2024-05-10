@@ -67,8 +67,8 @@ def get_target_path(file_name):
     file_name = file_name.replace('_', '')  # huawei format
 
     #we will process only files for this and last month
-    #if not file_name.startswith(this_month) and not file_name.startswith(last_month):
-    #    return None
+    if not file_name.startswith(this_month) and not file_name.startswith(last_month):
+        return None
 
     year = file_name[:4]
     month = file_name[4:6]
