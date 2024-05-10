@@ -80,7 +80,7 @@ def get_target_path(file_name):
     months = ['januar', 'februar',  'marec', 'april', 'maj', 'jun', 'jul', 'august', 'september', 'oktober', 'november', 'december']
     try:
         path = f'{TARGET_PATH_PREFIX}{year}/_raw/{month}_{months[int(month)-1]}{year}/'
-    except ValueError:  # can't detect month and year
+    except (ValueError, IndexError):  # can't detect month and year
         return None
     return path
 
