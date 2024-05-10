@@ -105,13 +105,16 @@ def connect(url, port):
                 os.makedirs(target_file_path, mode=0o777, exist_ok=True)
 
                 if not os.path.isfile(target_file_path + file_name):
-                    print(f'File copy to {target_file_path + file_name} ...')
-                    # copy file from ftp as filename.ext.part
-                    with open(target_file_path + file_name + '.part', 'wb') as fp:
-                        ftp.retrbinary('RETR ' + file_name, fp.write)
+                    try:
+                        print(f'File copy to {target_file_path + file_name} ...')
+                        # copy file from ftp as filename.ext.part
+                        with open(target_file_path + file_name + '.part', 'wb') as fp:
+                            ftp.retrbinary('RETR ' + file_name, fp.write)
 
-                    # remove .part from file name only after copying is done
-                    os.rename(target_file_path + file_name + '.part', target_file_path + file_name)
+                        # remove .part from file name only after copying is done
+                        os.rename(target_file_path + file_name + '.part', target_file_path + file_name)
+                    except OSError:
+                        print(f'OSError occured on file {target_file_path + file_name}')
                 else:
                     if VERBOSE:
                         print(f'File {target_file_path + file_name} already exists, skipping.')
