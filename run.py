@@ -5,8 +5,8 @@ import traceback
 from time import sleep
 from ftplib import FTP, error_perm
 
-IP_RANGE_START = '192.168.1.40'
-IP_RANGE_END =   '192.168.1.99'
+IP_RANGE_START = '192.168.1.84'
+IP_RANGE_END =   '192.168.1.84'
 
 #PORTS_TO_SCAN = [2121, 2122]
 PORTS_TO_SCAN = [2121, ]
@@ -91,6 +91,7 @@ def connect(url, port):
     try:
         print(f'Successfully connected.')
         ftp.login()  # anonymous
+        print('CWD to camera dir...')
         try:
             ftp.cwd('0')
         except error_perm:
